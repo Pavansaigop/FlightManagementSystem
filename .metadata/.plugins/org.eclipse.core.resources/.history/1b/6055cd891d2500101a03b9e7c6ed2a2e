@@ -1,0 +1,24 @@
+package com.flightservice.Repo;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.flightservice.model.Flight;
+import com.flightservice.model.RecentFlight;
+import com.flightservice.model.RecentSearch;
+
+public interface RecentRepo extends JpaRepository<RecentSearch, Integer> {
+	
+	 @Query("SELECT f FROM RecentSearch f WHERE f.source = :source AND f.destination = :destination AND DATE(f.date) = :date")
+	    List<RecentSearch> findFlightsByRouteAndDate(
+	        @Param("source") String source,
+	        @Param("destination") String destination,
+	        @Param("date") LocalDate date
+	    );
+	    
+
+}

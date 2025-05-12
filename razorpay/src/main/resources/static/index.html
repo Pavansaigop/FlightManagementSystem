@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+        }
+        button {
+            background-color: #ff5e62;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #ff1e56;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Razorpay Payment Gateway</h2>
+        <label for="amount">Enter Amount (INR):</label>
+        <input type="number" id="amount" placeholder="Enter amount" required>
+        <button onclick="createOrder()">Pay Now</button>
+    </div>
+
+    <script>
+        function createOrder() {
+            let amount = document.getElementById("amount").value;
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            fetch("http://localhost:1007/create-order", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: amount })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.order_id) {
+                    openRazorpayCheckout(data.order_id, amount);
+                } else {
+                    alert("Order creation failed.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        function openRazorpayCheckout(orderId, amount) {
+            var options = {
+            		"key": "rzp_test_ILPSwqbfsbaNMA",  // your actual Razorpay key ID here
+                "amount": amount * 100,
+                "currency": "INR",
+                "name": "Your Company",
+                "description": "Test Transaction",
+                "order_id": orderId,
+                "handler": function (response) {
+                    alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                    capturePayment(response.razorpay_payment_id, amount, orderId);
+                },
+                "theme": { "color": "#3399cc" }
+            };
+            var rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        function capturePayment(paymentId, amount, orderId) {
+            fetch("http://localhost:1007/capture-payment", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ paymentId: paymentId, amount: amount, orderId: orderId })
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes("already captured")) {
+                    alert("Payment was already captured. Database updated.");
+                } else {
+                    alert(data);
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>

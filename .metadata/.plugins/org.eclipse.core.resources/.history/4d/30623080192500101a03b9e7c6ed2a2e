@@ -1,0 +1,44 @@
+package com.flightservice.model;
+
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class RecentSearch {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	private List<RecentFlight> recentFlights;
+	
+	
+	public RecentSearch() {
+		super();
+	}
+	public RecentSearch(List<RecentFlight> recentFlights) {
+		super();
+		this.recentFlights = recentFlights;
+	}
+	public RecentSearch(Integer id, List<RecentFlight> recentFlights) {
+		super();
+		this.id = id;
+		this.recentFlights = recentFlights;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public List<RecentFlight> getRecentFlights() {
+		return recentFlights;
+	}
+	public void setRecentFlights(List<RecentFlight> recentFlights) {
+		this.recentFlights = recentFlights;
+	}
+	
+}

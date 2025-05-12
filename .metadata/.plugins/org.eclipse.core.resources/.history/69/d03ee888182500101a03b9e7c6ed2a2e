@@ -1,0 +1,7 @@
+package com.flightservice.Repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RecentRepo extends JpaRepository<T, ID> {
+
+}

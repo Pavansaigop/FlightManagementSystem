@@ -1,0 +1,19 @@
+Wanted but not invoked:
+bookingRepo.deleteByBookingId(12106348);
+-> at com.bookingservice.controllerTest.BookingServiceImplTest.testDeleteBookingByBookingId(BookingServiceImplTest.java:143)
+
+However, there were exactly 2 interactions with this mock:
+bookingRepo.findByBookingId(12106348);
+-> at com.bookingservice.service.BookingServiceImpl.deleteBookingByBookingId(BookingServiceImpl.java:195)
+
+bookingRepo.save(
+    Booking [bookingId=null, flightNumber=VS-102, passengerBookingId=12106348, noOfSeats=2, bookingDate=2025-04-01T10:00, bookingStatus=Cancelled, passengers=[PassengerDetails [passengerId=null, passengerName=Pavan Sai Gopal, gender=male, age=22], PassengerDetails [passengerId=null, passengerName=Rakshit, gender=male, age=22]]]
+);
+-> at com.bookingservice.service.BookingServiceImpl.deleteBookingByBookingId(BookingServiceImpl.java:201)
+
+
+	at com.bookingservice.controllerTest.BookingServiceImplTest.testDeleteBookingByBookingId(BookingServiceImplTest.java:143)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

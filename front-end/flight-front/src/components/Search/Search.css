@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+  
+  .swap-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .swap-line input {
+    padding: 10px;
+    width: 150px;
+  }
+  
+  .swap-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  .date-line {
+    margin-bottom: 20px;
+  }
+  
+  .date-line input {
+    padding: 10px;
+  }
+  
+  .search-line {
+    margin-top: 10px;
+  }
+  
+  .search-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
